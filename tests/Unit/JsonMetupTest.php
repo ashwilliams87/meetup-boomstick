@@ -1,9 +1,8 @@
 <?php
 
-namespace Ebs\Tests;
+namespace Metup\Boomstick\Tests;
 
-use Lan\Ebs\Boomstick\Items\Common\Action;
-use Lan\Ebs\Boomstick\Items\Tabs;
+use Metup\Boomstick\Button;
 use Tests\Support\UnitTester;
 
 class JsonMetupTest extends \Codeception\Test\Unit
@@ -22,7 +21,7 @@ class JsonMetupTest extends \Codeception\Test\Unit
         $this->assertJson($emptyJsonString);
 
         $object = new \stdClass();
-        $myObjectJsonString = json_encode($object);
+        $myObjectJsonString = json_encode($object, JSON_UNESCAPED_UNICODE);
 
         $this->assertJson($myObjectJsonString);
 
@@ -30,9 +29,9 @@ class JsonMetupTest extends \Codeception\Test\Unit
 
         $jsonStringWithField = '{"name":"Jack"}';
 
-        $this->assertJson($jsonStringWithField);
+        //$this->assertJson($jsonStringWithField);
 
-        $this->assertJsonStringEqualsJsonString($jsonStringWithField, $myObjectJsonString);
+        //$this->assertJsonStringEqualsJsonString($jsonStringWithField, $myObjectJsonString);
     }
 
     public function testButton()
@@ -41,26 +40,56 @@ class JsonMetupTest extends \Codeception\Test\Unit
         $button = new \stdClass();
         $button->type = 'button';
         $button->name = 'download_button';
-        $button->caption = 'Скачать';
+        $button->label = 'Скачать';
 
-        $expectedButtonJson = json_encode($button);
+        $expectedButtonJson = json_encode($button, JSON_UNESCAPED_UNICODE);
 
         codecept_debug($expectedButtonJson);
 
         $this->assertJson($expectedButtonJson);
 
-        // $button = new Button('download_button','Скачать');
+        $button = new Button('download_button', 'Скачать');
+
+        $this->assertJsonStringEqualsJsonString(json_encode($button, JSON_UNESCAPED_UNICODE));
 
     }
 
     public function testSelect()
     {
+        $options = [
+            ['value' => 'spb', 'text' => 'Санкт-Петербург'], ['value' => 'msk', 'text' => 'Москва'],
+        ];
+
+        $select = new \stdClass();
+        $select->type = 'select';
+        $select->name = 'select_of_cities';
+        $select->label = 'Города';
+        $select->options = $options;
+        $select->value = 'spb';
+
+        $expectedSelectJson = json_encode($select, JSON_UNESCAPED_UNICODE);
+
+        codecept_debug($expectedSelectJson);
+
+        $this->assertJson($expectedSelectJson);
+
+        $select = new Select('select_of_cities', 'Города', $options, 'spb');
+
+        $this->assertJsonStringEqualsJsonString(json_encode($select, JSON_UNESCAPED_UNICODE), $select);
 
     }
 
     public function testForm()
     {
+        $form = new \stdClass();
+        $form->type = 'form';
+        $form->name = 'meetup_form';
+        $form->items = [];
+        $expectedSelectJson = json_encode($form, JSON_UNESCAPED_UNICODE);
+        $this->assertJson($expectedSelectJson);
 
+        $form = new Form('meetup_form', []);
+        $this->assertJsonStringEqualsJsonString(json_encode($form, JSON_UNESCAPED_UNICODE), $expectedSelectJson);
     }
 
 

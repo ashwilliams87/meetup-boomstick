@@ -11,15 +11,12 @@
   ],
   "autoload": {
     "psr-4": {
-      "Lan\\Ebs\\Boomstick\\": "src/",
-      "Lan\\Ebs\\Boomstick\\Items\\": "src/Items",
-      "Lan\\Ebs\\Boomstick\\Interfaces\\": "src/Interfaces",
-      "Lan\\Ebs\\Boomstick\\Items\\Common\\": "src/Items/Common"
+      "Metup\\Boomstick\\": "src/"
     }
   },
   "autoload-dev": {
     "psr-4": {
-      "Lan\\Boomstick\\Tests\\": "tests/"
+      "Metup\\Boomstick\\Tests\\": "tests/"
     }
   },
   "require": {
