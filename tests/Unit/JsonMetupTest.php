@@ -49,7 +49,7 @@ class JsonMetupTest extends \Codeception\Test\Unit
 
         $this->assertJson($expectedButtonJson);
 
-        $button = new Button('download_button', 'Скачать');
+        $button = Button::create('download_button', 'Скачать');
 
         $this->assertJsonStringEqualsJsonString(json_encode($button, JSON_UNESCAPED_UNICODE),$expectedButtonJson);
     }
@@ -73,7 +73,7 @@ class JsonMetupTest extends \Codeception\Test\Unit
 
         $this->assertJson($expectedSelectJson);
 
-        $select = new Select('select_of_cities', 'Города', $options, 'spb');
+        $select = Select::create('select_of_cities', 'Города', $options, 'spb');
 
         $this->assertJsonStringEqualsJsonString(json_encode($select, JSON_UNESCAPED_UNICODE), json_encode($select, JSON_UNESCAPED_UNICODE));
     }
@@ -87,9 +87,36 @@ class JsonMetupTest extends \Codeception\Test\Unit
         $expectedSelectJson = json_encode($form, JSON_UNESCAPED_UNICODE);
         $this->assertJson($expectedSelectJson);
 
-        $form = new Form('meetup_form', []);
+        $form = Form::create('meetup_form', []);
         $this->assertJsonStringEqualsJsonString(json_encode($form, JSON_UNESCAPED_UNICODE), $expectedSelectJson);
     }
 
+    public function testFormCreateMethod(){
+        $form = new \stdClass();
+        $form->type = 'form';
+        $form->name = 'meetup_form';
+        $form->items = [];
+        $expectedSelectJson = json_encode($form, JSON_UNESCAPED_UNICODE);
+        $this->assertJson($expectedSelectJson);
+
+        $form =  Form::create('meetup_form', []);
+        $this->assertJsonStringEqualsJsonString(json_encode($form, JSON_UNESCAPED_UNICODE), $expectedSelectJson);
+    }
+
+    public function testFormWithButtonAndSelect(){
+        $options = [
+            ['value' => 'spb', 'text' => 'Санкт-Петербург'], ['value' => 'msk', 'text' => 'Москва'],
+        ];
+        $items = [
+            Select::create('select_of_cities', 'Города', $options, 'spb'),
+            Button::create('download_button', 'Скачать')
+        ];
+        $form = Form::create('meetup_form', $items);
+        $stringJson  = json_encode($form, JSON_UNESCAPED_UNICODE);
+
+        codecept_debug($stringJson);
+
+        $this->assertJson($stringJson);
+    }
 
 }

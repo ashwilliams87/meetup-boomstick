@@ -4,15 +4,20 @@ namespace Metup\Boomstick;
 
 class Form
 {
-
+    public $type = 'form';
+    public $items = [];
     /**
      * @param string $string
      * @param array $array
      */
-    public function __construct(string $string, array $array)
+    private function __construct(string $name, array $items = [])
     {
-        $this->type = 'form';
-        $this->name = 'meetup_form';
-        $this->items = [];
+        $this->name = $name;
+        $this->items = $items;
+    }
+
+    public static function create(string $name, array $items) :self
+    {
+        return new self($name, $items);
     }
 }

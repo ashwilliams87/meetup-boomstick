@@ -1,13 +1,22 @@
 <?php
+
 namespace Metup\Boomstick;
 class Select
 {
-    public function __construct(string $string, string $string1, array $options, string $string2)
+    public $type = 'select';
+    public $name;
+    public $label;
+
+    public function __construct(string $name = 'default_select_name', string $label = 'default_city', array $options = [], string $value = '')
     {
-        $this->type = 'select';
-        $this->name = 'select_of_cities';
-        $this->label = 'Города';
+        $this->name = $name;
+        $this->label = $label;
         $this->options = $options;
-        $this->value = 'spb';
+        $this->value = $value;
+    }
+
+    public static function create(string $name, string $label, array $options, string $value)
+    {
+        return new self($name, $label, $options, $value);
     }
 }
