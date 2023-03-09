@@ -21,13 +21,11 @@ class Form
     {
         return new self($name, $items);
     }
-
     public function addButton(string $name, string $label)
     {
         $this->items[] = Button::create($name, $label);
         return $this;
     }
-
     public function addSelect(string $name, string $label, array $options, string $value)
     {
         $this->items[] = Select::create($name, $label, $options, $value);
