@@ -119,4 +119,19 @@ class JsonMetupTest extends \Codeception\Test\Unit
         $this->assertJson($stringJson);
     }
 
+    public function testFormWithButtonAndSelectRefactor(){
+        $options = [
+            ['value' => 'spb', 'text' => 'Санкт-Петербург'], ['value' => 'msk', 'text' => 'Москва'],
+        ];
+
+        $form = Form::create('meetup_form')
+                ->addButton('download_button', 'Скачать')
+                ->addSelect('select_of_cities', 'Города', $options, 'spb');
+        $stringJson  = json_encode($form, JSON_UNESCAPED_UNICODE);
+
+        codecept_debug($stringJson);
+
+        $this->assertJson($stringJson);
+    }
+
 }

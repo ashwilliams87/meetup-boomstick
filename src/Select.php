@@ -15,7 +15,7 @@ class Select
         $this->value = $value;
     }
 
-    public static function create(string $name, string $label, array $options, string $value)
+    public static function create(string $name, string $label, array $options, string $value) : self
     {
         return new self($name, $label, $options, $value);
     }
