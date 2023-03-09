@@ -3,6 +3,8 @@
 namespace Metup\Boomstick\Tests;
 
 use Metup\Boomstick\Button;
+use Metup\Boomstick\Form;
+use Metup\Boomstick\Select;
 use Tests\Support\UnitTester;
 
 class JsonMetupTest extends \Codeception\Test\Unit
@@ -36,7 +38,6 @@ class JsonMetupTest extends \Codeception\Test\Unit
 
     public function testButton()
     {
-
         $button = new \stdClass();
         $button->type = 'button';
         $button->name = 'download_button';
@@ -50,8 +51,7 @@ class JsonMetupTest extends \Codeception\Test\Unit
 
         $button = new Button('download_button', 'Скачать');
 
-        $this->assertJsonStringEqualsJsonString(json_encode($button, JSON_UNESCAPED_UNICODE));
-
+        $this->assertJsonStringEqualsJsonString(json_encode($button, JSON_UNESCAPED_UNICODE),$expectedButtonJson);
     }
 
     public function testSelect()
@@ -75,8 +75,7 @@ class JsonMetupTest extends \Codeception\Test\Unit
 
         $select = new Select('select_of_cities', 'Города', $options, 'spb');
 
-        $this->assertJsonStringEqualsJsonString(json_encode($select, JSON_UNESCAPED_UNICODE), $select);
-
+        $this->assertJsonStringEqualsJsonString(json_encode($select, JSON_UNESCAPED_UNICODE), json_encode($select, JSON_UNESCAPED_UNICODE));
     }
 
     public function testForm()
